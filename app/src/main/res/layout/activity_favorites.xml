@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".FavoritesActivity">
 
-    <TextView
-        android:id="@+id/tv_favorites"
+    <ScrollView
+        android:id="@+id/scrollview_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_favoritelist"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

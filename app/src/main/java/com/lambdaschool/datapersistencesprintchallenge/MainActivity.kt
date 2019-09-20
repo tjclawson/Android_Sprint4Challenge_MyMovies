@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lambdaschool.datapersistencesprintchallenge.model.FavoriteMovie
 import com.lambdaschool.sprint4challenge_mymovies.apiaccess.MovieConstants.API_KEY_PARAM
@@ -21,7 +22,6 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(), Callback<MovieSearchResult> {
 
     companion object {
-        val path = SEARCH_MOVIES_ENDPOINT
         val key = API_KEY_PARAM
     }
     lateinit var movieService: MovieApi
@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity(), Callback<MovieSearchResult> {
         movieService = MovieApi.Factory.create()
         movieViewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
 
+        //movieViewModel.getAllMovies().observe(this, Observer { movies -> MovieRepo })
+
         button_search.setOnClickListener {
             val movieQuery = et_search.text.toString()
             getMovie(movieQuery)
@@ -44,6 +46,10 @@ class MainActivity : AppCompatActivity(), Callback<MovieSearchResult> {
         button_favorites.setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java)
             startActivity(intent)
+            //Toast.makeText(this, "${movieViewModel.getAllMovies().value}", Toast.LENGTH_LONG).show()
+            //val list = movieViewModel.getAllMovies()
+            //list[0].title
+            //Toast.makeText(this, "${list[0].title}", Toast.LENGTH_LONG).show()
         }
     }
 

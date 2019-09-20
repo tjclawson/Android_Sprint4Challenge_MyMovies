@@ -8,7 +8,7 @@ import com.lambdaschool.datapersistencesprintchallenge.model.FavoriteMovie
 class MovieViewModel (application: Application) : AndroidViewModel(application) {
 
     private var repo: MovieRepo = MovieRepo(application)
-    private var movieList: LiveData<List<FavoriteMovie>> = repo.getAllMovies()
+    var movieList: List<FavoriteMovie> = repo.getAllMovies()
 
     fun insert(movie: FavoriteMovie) {
         repo.insert(movie)
@@ -22,7 +22,8 @@ class MovieViewModel (application: Application) : AndroidViewModel(application) 
         repo.delete(movie)
     }
 
-    fun getAllMovies(): LiveData<List<FavoriteMovie>> {
+    fun getAllMovies(): List<FavoriteMovie> {
+        var movieList: List<FavoriteMovie> = repo.getAllMovies()
         return movieList
     }
 }

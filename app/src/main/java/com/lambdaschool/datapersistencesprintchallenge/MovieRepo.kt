@@ -7,28 +7,31 @@ import com.lambdaschool.datapersistencesprintchallenge.model.FavoriteMovie
 
 class MovieRepo(context: Context) {
     private var movieDao: MovieDao
-    private var movieList: LiveData<List<FavoriteMovie>>
+    lateinit var movieList: List<FavoriteMovie>
+
 
     init {
         val database: MovieDatabase = MovieDatabase.getInstance(context)!!
         movieDao = database.movieDao()
-        movieList = movieDao.getAllMovies()
+        //movieList = movieDao.getAllMovies()
     }
 
+    //private var movieList: LiveData<List<FavoriteMovie>> = movieDao.getAllMovies()
+
     fun insert(movie: FavoriteMovie) {
-        val insertMovieAsyncTask = InsertMovieAsyncTask(movieDao).execute(movie)
+        InsertMovieAsyncTask(movieDao).execute(movie)
     }
 
     fun update(movie: FavoriteMovie) {
-        val updateMovieAsyncTask = UpdateMovieAsyncTask(movieDao).execute(movie)
+        UpdateMovieAsyncTask(movieDao).execute(movie)
     }
 
     fun delete(movie: FavoriteMovie) {
-        val deleteMovieAsyncTask = DeleteMovieAsyncTask(movieDao).execute(movie)
+        DeleteMovieAsyncTask(movieDao).execute(movie)
     }
 
-    fun getAllMovies(): LiveData<List<FavoriteMovie>> {
-        return movieList
+    fun getAllMovies(): List<FavoriteMovie> {
+        return AllPokemontMovieAsyncTask(movieDao).execute().get()
     }
 
     companion object {
@@ -57,11 +60,18 @@ class MovieRepo(context: Context) {
             }
         }
 
-        private class AllPokemontMovieAsyncTask(movieDao: MovieDao) : AsyncTask<FavoriteMovie, Unit, Unit>() {
+        private class AllPokemontMovieAsyncTask(movieDao: MovieDao) : AsyncTask<FavoriteMovie, Unit, List<FavoriteMovie>>() {
             val MovieDao = movieDao
 
-            override fun doInBackground(vararg p0: FavoriteMovie?) {
+            override fun doInBackground(vararg p0: FavoriteMovie?): List<FavoriteMovie> {
                 val movieList = MovieDao.getAllMovies()
+                return movieList
+            }
+
+            override fun onPostExecute(result: List<FavoriteMovie>?) {
+                super.onPostExecute(result)
+                val movieList = result
+
             }
         }
     }
